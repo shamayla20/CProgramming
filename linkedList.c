@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,26 +29,31 @@ void insertNewAfterNode(struct Node *start,int nodeNo){
 		count++;
 		start = insertAfter;
 	}
-	struct Node * newNode = createNewNode(++count,"NewBookName",insertAfter->nextNode);		
+	struct Node * newNode = createNewNode(44,"NewBookName",insertAfter->nextNode);		
 	insertAfter->nextNode = newNode;
 }
 
 struct Node * reverseNodes(struct Node *start,int nodeCount){
+	struct Node *newStart = NULL;
 	struct Node *cur = NULL;
 	struct Node *prevNode = NULL;	
-	cur = start;
-	//For every node
-	for(int i=nodeCount-1;i>0;i--){
+	int nodesUpdated =1;
+	//until all nodes are updated
+	while(nodesUpdated != nodeCount){
 		//Update the address		
-		for(int j=0;j<i;j++){
+		int j=0;
+		cur = start;
+		for(;j<nodeCount-nodesUpdated;j++){
 			prevNode = cur;						
-			cur = cur->nextNode; 
+			cur = cur->nextNode;
+			
 		}
-		if(i==nodeCount-1)
-			start = cur->nextNode;
+		if(nodesUpdated==1)
+			newStart = cur;
 		cur->nextNode = prevNode;
+		nodesUpdated++;
 	}
-	return start;
+	return newStart;
 }
 
 void printAllNodes(struct Node *start,int nodeCount){
@@ -86,16 +92,16 @@ int main(){
 	
 	printAllNodes(head,count);
 	
+	head = reverseNodes(head,count);
+	printf("\n-----------------------------------\n");
+	printAllNodes(head,count);
+	
 	insertNewAfterNode(head,2);
 	count++;
 	printf("\n-----------------------------------\n");
 	printAllNodes(head,count);
 
-	head = reverseNodes(head,count);
 	
-	printf("\n-----------------------------------\n");
-	printAllNodes(head,count);
-
 	//Free the memory
 	current = head;
 	for(int i=0;i<count;i++){
@@ -105,4 +111,3 @@ int main(){
 	}		
 	return 0;
 }
-
