@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,6 +55,39 @@ struct Node * reverseNodes(struct Node *start,int nodeCount){
 	return newStart;
 }
 
+struct Node * reverseNodes1(struct Node *start,int nodeCount){
+	struct Node *newStart = start;
+	struct Node *cur = NULL;
+	struct Node *prevNode = NULL;	
+	int nodesUpdated =0;
+	//until all nodes are updated
+	while(nodesUpdated != nodeCount){
+		//Update the address		
+		cur = start;
+		int cond = (nodeCount-nodesUpdated-1);
+		for(int j=0;j<cond;j++){
+		    if((j+1)==cond){
+               if(nodesUpdated==0){
+			     newStart = cur->nextNode;
+               }
+               cur->nextNode->nextNode = cur;
+			   nodesUpdated++;
+		       cur->nextNode = prevNode;
+		       nodesUpdated++;
+		       if(nodesUpdated==4){
+			     prevNode->nextNode=NULL;
+			     nodesUpdated++;
+               }
+		    }else{
+			   prevNode = cur;						
+		 	   cur = cur->nextNode;
+		    }
+		}
+		printf("Nodes Updated %d \n",nodesUpdated);
+	}
+	return newStart;
+}
+
 void printAllNodes(struct Node *start,int nodeCount){
 
 	for(int i=0;i<nodeCount;i++){
@@ -91,9 +123,9 @@ int main(){
 	}
 	
 	printAllNodes(head,count);
-	
-	head = reverseNodes(head,count);
 	printf("\n-----------------------------------\n");
+	head = reverseNodes1(head,count);
+	
 	printAllNodes(head,count);
 	
 	insertNewAfterNode(head,2);
