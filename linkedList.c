@@ -21,7 +21,7 @@ struct Node* createNewNode(int id, char title[50],struct Node* nextNode){
 }
 
 void insertNewAfterNode(struct Node *start,int nodeNo){
-	struct Node *insertAfter = NULL;	
+	struct Node *insertAfter = start;	
 	int count  = 1;	
 	while(count != nodeNo){
 		insertAfter = start->nextNode;
@@ -52,6 +52,7 @@ struct Node * reverseNodes(struct Node *start,int nodeCount){
 		cur->nextNode = prevNode;
 		nodesUpdated++;
 	}
+	start->nextNode = NULL;
 	return newStart;
 }
 
@@ -128,7 +129,7 @@ int main(){
 	
 	printAllNodes(head,count);
 	
-	insertNewAfterNode(head,2);
+	insertNewAfterNode(head,1);
 	count++;
 	printf("\n-----------------------------------\n");
 	printAllNodes(head,count);
