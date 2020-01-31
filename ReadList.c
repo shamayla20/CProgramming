@@ -36,7 +36,7 @@ struct Node * addNodeInList(struct LList* list, int index){
 		list->last->nextNode = newNode;
 		list->last = newNode;		
 	}else{
-		//Append at index
+		//Add at index
 		struct Node *insertAfter = list->head;	
 		int count  = 1;	
 		while(count != index){
@@ -62,7 +62,8 @@ void freeLList(struct LList* list){
 	struct Node * current = list->head;
 	while(current!=NULL){
 		head = current->nextNode;
-		free(current);		
+		free(current);
+		current = head;		
 	}
 }
 
@@ -88,12 +89,11 @@ int main() {
 		//strtok modifies the original buffer save the line for printing	   		
 		char * token = strtok(buffer, ";");
 		if(token != NULL){//; was found   	   
-			//printf( " %s\n", token ); //printing the token
-			   if(strcmp(token,"WIFI")==0){
+			   if(strcmp(token,"ACCE")==0){
 				//printf("%s", tempBuffer);
      				insertedNode = 	addNodeInList(&list,-1);			
 				token = strtok( NULL,";");
-				token = strtok( NULL,";");						
+				token = strtok( NULL,";");
     				token = strtok( NULL,";");//x
 				insertedNode->data.x = strtod(token,NULL);					
 				token = strtok( NULL,";");//y
@@ -101,16 +101,20 @@ int main() {
 				token = strtok( NULL,";");//z
 				insertedNode->data.z = strtod(token,NULL);
 				insertedNode->data.avg = (insertedNode->data.x+insertedNode->data.y+insertedNode->data.z)/3.0;
-			    }
-		}
-	}
-   printLList(&list);
-   freeLList(&list);
-    	//printf("No of 'WIFI' is %d\n", countSamples);
-    fclose(fptr);
-    return 0;
-}
 
+			    }//ACCE found
+		}//; found in string
+	}//while EOF
+   
+	//Print the created list 	
+   	printLList(&list);
+   	//Free the created list	
+   	freeLList(&list);
+   	//Close the file
+   	fclose(fptr);
+   
+	return 0;
+}
 
 
 
